@@ -1,0 +1,3 @@
+---
+:zabbix_host: 'zabbix.sg.internal'
+:zabbix_port: 10051

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # simple zabbix_sender utility, based on gist by 'miyucy'
-#   https://gist.github.com/1170577.git
+#   https://gist.github.com/1170577
 #
 require 'socket'
 require 'json'
@@ -60,7 +60,7 @@ module Puppet::Util::Zabbix
         :data    => data,
       }.to_json
 
-      "ZBXD\1".encode("ascii") + [baggage.bytesize].pack("i") + "\x00\x00\x00\x00" + baggage
+      "ZBXD\1" + [baggage.bytesize].pack("i") + "\0\0\0\0" + baggage
     end
 
   end

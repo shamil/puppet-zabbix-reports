@@ -7,10 +7,10 @@ Puppet::Reports.register_report(:zabbix) do
 
   def process
     configfile = File.join([File.dirname(Puppet.settings[:config]), "zabbix.yaml"])
-    raise Puppet::ParseError, "Zabbix report config file #{configfile} not readable" unless File.exist?(configfile)
+    raise Puppet::ParseError, "zabbix report config file #{configfile} not readable" unless File.exist?(configfile)
 
     config = YAML.load_file(configfile)
-    raise Puppet::ParseError, "Zabbix host was not specified in config file" unless defined? config[:zabbix_host]
+    raise Puppet::ParseError, "zabbix host was not specified in config file" unless defined? config[:zabbix_host]
 
     zabbix_sender = Puppet::Util::Zabbix::Sender.new config[:zabbix_host], config.fetch(:zabbix_port, 10051)
 
@@ -24,11 +24,9 @@ Puppet::Reports.register_report(:zabbix) do
       end
     end
 
-    # send metric to zabbix
-    Puppet.debug "sending report for host #{self.host}, to zabbix server at #{zabbix_sender.serv}:#{zabbix_sender.port}"
+    # send metrics to zabbix
+    Puppet.debug "sending zabbix report for host #{self.host}, at #{zabbix_sender.serv}:#{zabbix_sender.port}"
     result = zabbix_sender.send! self.host
-
-    Puppet.debug result.to_json
 
     # validate the response
     raise Puppet::Error, "zabbix send failed - #{result['info']}" if result['response'] != 'success'

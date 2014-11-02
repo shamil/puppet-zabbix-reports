@@ -11,19 +11,26 @@ server via zabbix trapper protocol.
 * Install `puppet-zabbix-reports` as a module in your puppet master's module
   path (defaults to `/etc/puppet/puppet.conf`).
 
+* On master run `puppet plugin download`, to sync files to `lib`
+  (e.g. `/var/lib/puppet/lib`)
+
 * Update the `zabbix_host` and `zabbix_port` variables in `zabbix.yaml`.
   Copy `zabbix.yaml` to puppet config directory. An example file is included.
 
-* Enable `pluginsync` and `reports` on your master (and agents for `puppet apply`) in
+* Configure zabbix master to use the `zabbix` report:
+
+```ini
+[master]
+    reports = store, zabbix
+```
+
+* Enable `pluginsync` and `report` on your agents:
   your `puppet.conf`.
 
 ```ini
 [main]
-report     = true
-pluginsync = true
-
-[master]
-reports = zabbix
+  report     = true
+  pluginsync = true
 ```
 
 * Import the zabbix template in `zabbix-template.xml`.
@@ -35,8 +42,8 @@ reports = zabbix
 
 * actually create the zabbix template
 * write some unit tests (really?)
-* check on real enviroment
-* submit to Puppet Forge
+* check on real environment
+* submit the module to PuppetForge
 
 **License**
 

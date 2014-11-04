@@ -1,6 +1,5 @@
 require 'puppet'
 require 'puppet/util/zabbix_sender'
-require 'time'
 
 Puppet::Reports.register_report(:zabbix) do
   desc "Send reports to a Zabbix server via zabbix trapper."

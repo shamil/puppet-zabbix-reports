@@ -1,6 +1,6 @@
 require 'puppet'
 require 'puppet/util/zabbix_sender'
-require 'yaml'
+require 'time'
 
 Puppet::Reports.register_report(:zabbix) do
   desc "Send reports to a Zabbix server via zabbix trapper."
@@ -13,6 +13,10 @@ Puppet::Reports.register_report(:zabbix) do
     raise Puppet::ParseError, "zabbix host was not specified in config file" unless defined? config[:zabbix_host]
 
     zabbix_sender = Puppet::Util::Zabbix::Sender.new config[:zabbix_host], config.fetch(:zabbix_port, 10051)
+
+    # simple info
+    zabbix_sender.add_item "puppet.version", self.puppet_version
+    zabbix_sender.add_item "puppet.run.timestamp", self.time.to_i
 
     # collect metrics
     self.metrics.each do |metric, data|

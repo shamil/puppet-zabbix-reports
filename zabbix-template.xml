@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-11-18T20:00:59Z</date>
+    <date>2014-11-19T08:10:17Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -609,7 +609,7 @@ This can differ from &quot;changed&quot; resources count for a run, in that the 
             <url/>
             <status>0</status>
             <priority>3</priority>
-            <description>Login to the {HOST.NAME} and check the puppet logs</description>
+            <description>Login to {HOST.NAME} and check the puppet logs</description>
             <type>0</type>
             <dependencies/>
         </trigger>
@@ -618,7 +618,7 @@ This can differ from &quot;changed&quot; resources count for a run, in that the 
             <name>Puppet agent seems like not running</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description>Seems like puppet agent process is not in the 'ps' table. Check asap if the agent service is runing</description>
             <type>0</type>
             <dependencies/>

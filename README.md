@@ -44,7 +44,6 @@ server via zabbix trapper protocol.
 
 * write some unit tests (really?)
 * check on real environment
-* submit the module to PuppetForge
 
 **License**
 

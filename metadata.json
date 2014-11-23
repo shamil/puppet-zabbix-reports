@@ -1,0 +1,11 @@
+{
+  "name": "shamil-zabbix_reports",
+  "version": "0.1.4",
+  "author": "Alex Simenduev",
+  "summary": "A Puppet report processor for sending metrics to a Zabbix",
+  "license": "Apache 2.0",
+  "source": "",
+  "project_page": "https://github.com/shamil/puppet-zabbix-reports",
+  "issues_url": "https://github.com/shamil/puppet-zabbix-reports/issues",
+  "dependencies": []
+}

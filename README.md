@@ -43,7 +43,6 @@ server via zabbix trapper protocol.
 **TODO**
 
 * write some unit tests (really?)
-* check on real environment
 
 **License**
 

@@ -6,6 +6,8 @@ puppet-zabbix-reports
 A Puppet report processor for sending metrics to [Zabbix](http://www.zabbix.org/)
 server via zabbix trapper protocol.
 
+![zabbix items](https://raw.githubusercontent.com/shamil/puppet-zabbix-reports/master/screenshot.png)
+
 **Installation and usage**
 
 * Install `puppet-zabbix-reports` as a module in your puppet master's module

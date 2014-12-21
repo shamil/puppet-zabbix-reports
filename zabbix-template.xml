@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-11-19T08:10:17Z</date>
+    <date>2014-12-21T11:56:25Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -30,8 +30,8 @@
                     <snmp_oid/>
                     <key>puppet.run.timestamp</key>
                     <delay>0</delay>
-                    <history>7</history>
-                    <trends>365</trends>
+                    <history>3</history>
+                    <trends>7</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -601,7 +601,12 @@ This can differ from &quot;changed&quot; resources count for a run, in that the 
             <priority>2</priority>
             <description/>
             <type>0</type>
-            <dependencies/>
+            <dependencies>
+                <dependency>
+                    <name>Puppet agent seems like not running</name>
+                    <expression>{Template_Puppet:proc.num[,,,&quot;puppet agent$&quot;].last(0)}&lt;1</expression>
+                </dependency>
+            </dependencies>
         </trigger>
         <trigger>
             <expression>{Template_Puppet:puppet.resources.failed.last(0)}&gt;0</expression>

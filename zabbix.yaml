@@ -1,3 +1,9 @@
 ---
 :zabbix_host: zabbix.domain.tld
 :zabbix_port: 10051
+
+# override hosts here if your hosts name
+# are different from puppet
+#
+# :host_overrides:
+#     <puppet-hostname>: <zabbix_hostname>

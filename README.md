@@ -32,13 +32,15 @@ server via zabbix trapper protocol.
 ```
 
 * Unless you run puppet agent on master as well, you will need to run
-  `puppet plugin download` on master, to sync files to `lib` (e.g. `/var/lib/puppet/lib`).
+  `puppet plugin download` on master, to sync the files to `lib` (e.g. `/var/lib/puppet/lib`).
   You will need to do it every time you update the module.
 
 * Import the zabbix template from `zabbix-template.xml`.
 
-* Link the template to hosts managed by puppet. Note that the
-  host name in zabbix will need to match the puppet certname
+* Link the template to hosts managed by puppet.
+
+> It is recommended that host name in zabbix will match the puppet node name,
+> if it doesn't, use `override_hosts` option in `zabbix.yaml`
 
 **TODO**
 
@@ -46,15 +48,13 @@ server via zabbix trapper protocol.
 
 **License**
 
-    Author:: Alex Simenduev (<shamil.si@gmail.com>)
-    Copyright:: Copyright (c) 2014 Alex Simenduev
-    License:: Apache License, Version 2.0
+    Copyright 2015 Alex Simenduev <shamil.si@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,

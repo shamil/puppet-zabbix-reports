@@ -11,7 +11,8 @@ Puppet::Reports.register_report(:zabbix) do
     config = YAML.load_file(configfile)
     raise Puppet::ParseError, "zabbix host was not specified in config file" unless defined? config[:zabbix_host]
 
-    zabbix_sender = Puppet::Util::Zabbix::Sender.new config[:zabbix_host], config.fetch(:zabbix_port, 10051)
+    zabbix_sender  = Puppet::Util::Zabbix::Sender.new config[:zabbix_host], config.fetch(:zabbix_port, 10051)
+    host_overrides = config[:host_overrides] || {}
 
     # simple info
     zabbix_sender.add_item "puppet.version", self.puppet_version
@@ -29,7 +30,7 @@ Puppet::Reports.register_report(:zabbix) do
 
     # send metrics to zabbix
     Puppet.debug "sending zabbix report for host #{self.host}, at #{zabbix_sender.serv}:#{zabbix_sender.port}"
-    result = zabbix_sender.send! self.host
+    result = zabbix_sender.send! host_overrides.fetch(self.host, self.host)
 
     # validate the response
     raise Puppet::Error, "zabbix send failed - #{result['info']}" if result['response'] != 'success'

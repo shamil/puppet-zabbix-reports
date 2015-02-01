@@ -1,11 +1,22 @@
 {
   "name": "shamil-zabbix_reports",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "author": "Alex Simenduev",
   "summary": "A Puppet report processor for sending metrics to a Zabbix",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/shamil/puppet-zabbix-reports",
   "project_page": "https://github.com/shamil/puppet-zabbix-reports",
   "issues_url": "https://github.com/shamil/puppet-zabbix-reports/issues",
-  "dependencies": []
+  "dependencies": [],
+  "tags": ["zabbix", "report", "utility"],
+  "operatingsystem_support": [
+    { "operatingsystem": "RedHat"},
+    { "operatingsystem": "CentOS"},
+    { "operatingsystem": "OracleLinux"},
+    { "operatingsystem": "Scientific"},
+    { "operatingsystem": "SLES"},
+    { "operatingsystem": "Debian"},
+    { "operatingsystem": "Ubuntu"},
+    { "operatingsystem": "windows"}
+  ]
 }

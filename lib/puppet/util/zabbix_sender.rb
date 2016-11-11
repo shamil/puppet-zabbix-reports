@@ -21,7 +21,8 @@ module Puppet::Util::Zabbix
     end
 
     def initialize(serv = 'localhost', port = 10051)
-      @serv, @port = serv, port
+      @serv = serv.kind_of?(Array) ? serv : [serv]
+      @port = port
       @items = {}
     end
 
@@ -43,13 +44,15 @@ module Puppet::Util::Zabbix
     protected
 
     def connect(data)
-      sock = nil
-      begin
-        sock = TCPSocket.new @serv, @port
-        sock.write rawdata(data)
-        JSON.parse sock.read[13 .. -1]
-      ensure
-        sock.close if sock
+      @serv.each do |s|
+        sock = nil
+        begin
+          sock = TCPSocket.new s, @port
+          sock.write rawdata(data)
+          JSON.parse sock.read[13 .. -1]
+        ensure
+          sock.close if sock
+        end
       end
     end
 

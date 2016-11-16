@@ -13,13 +13,16 @@ Puppet::Reports.register_report(:zabbix) do
 
     raise_error = false
 
+    global_port = config.fetch(:zabbix_port, 10051)
+
     zabbix_hosts = config[:zabbix_host].kind_of?(Array) ?
-      config[:zabbix_host] : [config[:zabbix_host]]
+      config[:zabbix_host] : [{ 'address' => config[:zabbix_host] }]
 
     host_overrides = config[:host_overrides] || {}
 
     zabbix_hosts.each do |zhost|
-      zabbix_sender = Puppet::Util::Zabbix::Sender.new zhost, config.fetch(:zabbix_port, 10051)
+      port = zhost['port'] || global_port
+      zabbix_sender = Puppet::Util::Zabbix::Sender.new zhost['address'], port
 
       # simple info
       zabbix_sender.add_item "puppet.version", self.puppet_version
@@ -42,10 +45,11 @@ Puppet::Reports.register_report(:zabbix) do
       # validate the response. if it fails, keep on sending to all
       # zabbix servers before reporting the error.
       if result['response'] != 'success'
-        raise_error ||= result['info']
+        Puppet.error "zabbix send failed - #{result['info']}" if result['response'] != 'success'
+        raise_error = true
       end
     end
 
-    raise Puppet::Error, "zabbix send failed - #{raise_error}" if raise_error
+    raise Puppet::Error, "zabbix report had failures" if raise_error
   end
 end

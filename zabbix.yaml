@@ -1,8 +1,11 @@
 ---
 :zabbix_host:
-  - zabbix1.domain.tld
-  - zabbix2.domain.tld
-:zabbix_port: 10051
+  - address: zabbix1.domain.tld
+    port: 10051
+  - address: zabbix2.domain.tld
+    port: 10051
+# optional global port setting for backward compatibility
+# :zabbix_port: 10051
 
 # override hosts here if your hosts name
 # are different from puppet

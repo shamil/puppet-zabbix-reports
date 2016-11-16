@@ -1,7 +1,5 @@
 ---
-:zabbix_host:
-  - zabbix1.domain.tld
-  - zabbix2.domain.tld
+:zabbix_host: zabbix.domain.tld
 :zabbix_port: 10051
 
 # override hosts here if your hosts name

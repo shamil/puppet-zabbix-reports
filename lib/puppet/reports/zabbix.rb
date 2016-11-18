@@ -45,7 +45,7 @@ Puppet::Reports.register_report(:zabbix) do
       # validate the response. if it fails, keep on sending to all
       # zabbix servers before reporting the error.
       if result['response'] != 'success'
-        Puppet.error "zabbix send failed - #{result['info']}" if result['response'] != 'success'
+        Puppet.error "zabbix send failed - #{result['info']}"
         raise_error = true
       end
     end

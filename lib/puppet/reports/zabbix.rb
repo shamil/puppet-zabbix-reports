@@ -11,28 +11,45 @@ Puppet::Reports.register_report(:zabbix) do
     config = YAML.load_file(configfile)
     raise Puppet::ParseError, "zabbix host was not specified in config file" unless defined? config[:zabbix_host]
 
-    zabbix_sender  = Puppet::Util::Zabbix::Sender.new config[:zabbix_host], config.fetch(:zabbix_port, 10051)
+    raise_error = false
+
+    global_port = config.fetch(:zabbix_port, 10051)
+
+    zabbix_hosts = config[:zabbix_host].kind_of?(Array) ?
+      config[:zabbix_host] : [{ 'address' => config[:zabbix_host] }]
+
     host_overrides = config[:host_overrides] || {}
 
-    # simple info
-    zabbix_sender.add_item "puppet.version", self.puppet_version
-    zabbix_sender.add_item "puppet.run.timestamp", self.time.to_i
+    zabbix_hosts.each do |zhost|
+      port = zhost['port'] || global_port
+      zabbix_sender = Puppet::Util::Zabbix::Sender.new zhost['address'], port
 
-    # collect metrics
-    self.metrics.each do |metric, data|
-      next if metric == 'events' # do not process events at all
+      # simple info
+      zabbix_sender.add_item "puppet.version", self.puppet_version
+      zabbix_sender.add_item "puppet.run.timestamp", self.time.to_i
 
-      data.values.each do |item|
-        next if metric == 'time' and item.first != 'total' # get only total time
-        zabbix_sender.add_item "puppet.#{metric}.#{item.first}", item.last
+      # collect metrics
+      self.metrics.each do |metric, data|
+        next if metric == 'events' # do not process events at all
+
+        data.values.each do |item|
+          next if metric == 'time' and item.first != 'total' # get only total time
+          zabbix_sender.add_item "puppet.#{metric}.#{item.first}", item.last
+        end
+      end
+
+      # send metrics to zabbix
+      Puppet.debug "sending zabbix report for host #{self.host}, at #{zabbix_sender.serv}:#{zabbix_sender.port}"
+      result = zabbix_sender.send! host_overrides.fetch(self.host, self.host)
+
+      # validate the response. if it fails, keep on sending to all
+      # zabbix servers before reporting the error.
+      if result['response'] != 'success'
+        Puppet.error "zabbix send failed - #{result['info']}"
+        raise_error = true
       end
     end
 
-    # send metrics to zabbix
-    Puppet.debug "sending zabbix report for host #{self.host}, at #{zabbix_sender.serv}:#{zabbix_sender.port}"
-    result = zabbix_sender.send! host_overrides.fetch(self.host, self.host)
-
-    # validate the response
-    raise Puppet::Error, "zabbix send failed - #{result['info']}" if result['response'] != 'success'
+    raise Puppet::Error, "zabbix report had failures" if raise_error
   end
 end

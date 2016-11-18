@@ -13,8 +13,13 @@ server via zabbix trapper protocol.
 * Install `puppet-zabbix-reports` as a module in your puppet master's module
   path (defaults to `/etc/puppet/modules`).
 
-* Update the `:zabbix_host` and `:zabbix_port` variables in `zabbix.yaml`.
-  Copy `zabbix.yaml` to puppet config directory (defaults to `/etc/puppet`)
+* Update the `:zabbix_hosts` in `zabbix.yaml`, toy can specify multiple zabbix hosts.
+  See examples in `zabbix.yaml`file.
+
+* _[DEPRECATED]_ Update the `:zabbix_host` and `:zabbix_port` variables in `zabbix.yaml`.
+  You should use `:zabbix_hosts` instead. This option will be removed in the future.
+
+* Copy `zabbix.yaml` to puppet config directory (defaults to `/etc/puppet`).
 
 * Configure zabbix master to use the `zabbix` report:
 

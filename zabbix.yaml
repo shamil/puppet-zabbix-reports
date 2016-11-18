@@ -1,11 +1,15 @@
 ---
-:zabbix_host:
+# specify zabbix servers to send to
+:zabbix_hosts:
   - address: zabbix1.domain.tld
     port: 10051
   - address: zabbix2.domain.tld
     port: 10051
-# optional global port setting for backward compatibility
-# :zabbix_port: 10051
+
+# for backward compatibility, you can also specify
+# single zabbix server to send to
+:zabbix_host: zabbix.domain.tld
+:zabbix_port: 10051
 
 # override hosts here if your hosts name
 # are different from puppet

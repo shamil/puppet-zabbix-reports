@@ -9,19 +9,17 @@ Puppet::Reports.register_report(:zabbix) do
     raise Puppet::ParseError, "zabbix report config file #{configfile} not readable" unless File.exist?(configfile)
 
     config = YAML.load_file(configfile)
-    raise Puppet::ParseError, "zabbix host was not specified in config file" unless defined? config[:zabbix_host]
+    default_zabbix_port = config.fetch(:zabbix_port, 10051)
+    host_overrides = config.fetch(:host_overrides, {})
+
+    zabbix_hosts = [] # instantiate an empty array
+    zabbix_hosts << {'address' => config[:zabbix_host]} if config[:zabbix_host] # for backward cimpatibility
+    zabbix_hosts = zabbix_hosts + config[:zabbix_hosts] if config[:zabbix_hosts]
+    raise Puppet::ParseError, "zabbix host(s) must be specified in config file" unless zabbix_hosts.length > 0
 
     raise_error = false
-
-    global_port = config.fetch(:zabbix_port, 10051)
-
-    zabbix_hosts = config[:zabbix_host].kind_of?(Array) ?
-      config[:zabbix_host] : [{ 'address' => config[:zabbix_host] }]
-
-    host_overrides = config[:host_overrides] || {}
-
     zabbix_hosts.each do |zhost|
-      port = zhost['port'] || global_port
+      port = zhost['port'] || default_zabbix_port
       zabbix_sender = Puppet::Util::Zabbix::Sender.new zhost['address'], port
 
       # simple info
@@ -40,12 +38,16 @@ Puppet::Reports.register_report(:zabbix) do
 
       # send metrics to zabbix
       Puppet.debug "sending zabbix report for host #{self.host}, at #{zabbix_sender.serv}:#{zabbix_sender.port}"
-      result = zabbix_sender.send! host_overrides.fetch(self.host, self.host)
+      begin
+        result = zabbix_sender.send! host_overrides.fetch(self.host, self.host)
+      rescue => e
+        result = {'info' => e}
+      end
 
       # validate the response. if it fails, keep on sending to all
       # zabbix servers before reporting the error.
       if result['response'] != 'success'
-        Puppet.error "zabbix send failed - #{result['info']}"
+        Puppet.err "couldn't send to zabbix server (#{zabbix_sender.serv}:#{zabbix_sender.port}) - #{result['info']}"
         raise_error = true
       end
     end

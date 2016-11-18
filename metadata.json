@@ -1,6 +1,6 @@
 {
   "name": "shamil-zabbix_reports",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Alex Simenduev",
   "summary": "A Puppet report processor for sending metrics to a Zabbix",
   "license": "Apache-2.0",

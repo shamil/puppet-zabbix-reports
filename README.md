@@ -11,15 +11,12 @@ server via zabbix trapper protocol.
 **Installation and usage**
 
 * Install `puppet-zabbix-reports` as a module in your puppet master's module
-  path (defaults to `/etc/puppet/modules`).
+  path (defaults to `/etc/puppetlabs/code/environements/<environment>/modules`).
 
 * Update the `:zabbix_hosts` in `zabbix.yaml`, toy can specify multiple zabbix hosts.
   See examples in `zabbix.yaml`file.
 
-* _[DEPRECATED]_ Update the `:zabbix_host` and `:zabbix_port` variables in `zabbix.yaml`.
-  You should use `:zabbix_hosts` instead. This option will be removed in the future.
-
-* Copy `zabbix.yaml` to puppet config directory (defaults to `/etc/puppet`).
+* Copy `zabbix.yaml` to puppet config directory (defaults to `/etc/puppetlabs/puppet`).
 
 * Configure zabbix master to use the `zabbix` report:
 
@@ -36,8 +33,7 @@ server via zabbix trapper protocol.
     pluginsync = true
 ```
 
-* Unless you run puppet agent on master as well, you will need to run
-  `puppet plugin download` on master, to sync the files to `lib` (e.g. `/var/lib/puppet/lib`).
+* Puppet agent run required to sync functions via pluginsync.
   You will need to do it every time you update the module.
 
 * Import the zabbix template from `zabbix-template.xml`.

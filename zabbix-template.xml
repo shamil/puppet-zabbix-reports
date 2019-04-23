@@ -374,7 +374,52 @@ This can differ from &quot;changed&quot; resources count for a run, in that the 
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>proc.num[,,,&quot;puppet agent$&quot;]</key>
+                    <key>proc.num[,,,&quot;puppet agent&quot;]</key>
+                    <delay>600</delay>
+                    <history>7</history>
+                    <trends>90</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Puppet</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Puppet pxp-agent process</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>proc.num[,,,&quot;/opt/puppetlabs/puppet/bin/pxp-agent&quot;]</key>
                     <delay>600</delay>
                     <history>7</history>
                     <trends>90</trends>
@@ -619,12 +664,22 @@ This can differ from &quot;changed&quot; resources count for a run, in that the 
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template_Puppet:proc.num[,,,&quot;puppet agent$&quot;].last(0)}&lt;1</expression>
+            <expression>{Template_Puppet:proc.num[,,,&quot;puppet agent&quot;].last(0)}&lt;1</expression>
             <name>Puppet agent seems like not running</name>
             <url/>
             <status>0</status>
             <priority>3</priority>
-            <description>Seems like puppet agent process is not in the 'ps' table. Check asap if the agent service is runing</description>
+            <description>Seems like puppet agent process is not in the 'ps' table. Check asap if the agent service is running</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template_Puppet:proc.num[,,,&quot;/opt/puppetlabs/puppet/bin/pxp-agent&quot;].last(0)}&lt;1</expression>
+            <name>Puppet pxp-agent seems like not running</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description>Seems like puppet pxp-agent process is not in the 'ps' table. Check asap if the agent service is running</description>
             <type>0</type>
             <dependencies/>
         </trigger>

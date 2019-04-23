@@ -7,16 +7,47 @@
   "source": "https://github.com/shamil/puppet-zabbix-reports",
   "project_page": "https://github.com/shamil/puppet-zabbix-reports",
   "issues_url": "https://github.com/shamil/puppet-zabbix-reports/issues",
-  "dependencies": [],
-  "tags": ["zabbix", "report", "utility"],
+  "dependencies": [
+
+  ],
   "operatingsystem_support": [
-    { "operatingsystem": "RedHat"},
-    { "operatingsystem": "CentOS"},
-    { "operatingsystem": "OracleLinux"},
-    { "operatingsystem": "Scientific"},
-    { "operatingsystem": "SLES"},
-    { "operatingsystem": "Debian"},
-    { "operatingsystem": "Ubuntu"},
-    { "operatingsystem": "windows"}
-  ]
+    {
+      "operatingsystem": "RedHat"
+    },
+    {
+      "operatingsystem": "CentOS"
+    },
+    {
+      "operatingsystem": "OracleLinux"
+    },
+    {
+      "operatingsystem": "Scientific"
+    },
+    {
+      "operatingsystem": "SLES"
+    },
+    {
+      "operatingsystem": "Debian"
+    },
+    {
+      "operatingsystem": "Ubuntu"
+    },
+    {
+      "operatingsystem": "windows"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 7.0.0"
+    }
+  ],
+  "tags": [
+    "zabbix",
+    "report",
+    "utility"
+  ],
+  "pdk-version": "1.10.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git#1.10.0",
+  "template-ref": "1.10.0-0-gbba9ac3"
 }
